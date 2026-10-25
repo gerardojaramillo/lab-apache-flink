@@ -1,0 +1,44 @@
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+def flinkVer = "2.2.1"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation libs.junit
+    compileOnly("org.apache.flink:flink-core:${flinkVer}")
+    compileOnly("org.apache.flink:flink-streaming-java:${flinkVer}")
+    implementation("org.apache.flink:flink-clients:${flinkVer}")
+
+    compileOnly("org.apache.flink:flink-table-api-java-bridge:${flinkVer}")
+    compileOnly("org.apache.flink:flink-table-planner_2.12:${flinkVer}")
+
+    implementation "org.apache.flink:flink-connector-kafka:5.0.0-2.2"
+    compileOnly "org.apache.flink:flink-connector-files:${flinkVer}"
+    compileOnly("org.apache.flink:flink-table-common:${flinkVer}")
+    implementation "org.apache.flink:flink-json:${flinkVer}"
+    implementation "org.apache.flink:flink-parquet:${flinkVer}"
+    implementation("org.apache.hadoop:hadoop-common:3.3.6") {
+        exclude group: "commons-cli", module: "commons-cli"
+    }
+    implementation("org.apache.hadoop:hadoop-mapreduce-client-core:3.3.6") {
+        exclude group: "commons-cli", module: "commons-cli"
+    }
+    implementation libs.guava
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+application {
+    mainClass = 'org.example.App'
+}
